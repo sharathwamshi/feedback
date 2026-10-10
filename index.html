@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06070d">
+<title>Acknowledger First · Ambitions Realised</title>
+<link rel="icon" href="assets/logo.png">
+<meta name="description" content="Find the Acknowledger First product that fits your team in 60 seconds.">
+<script>
+(function(){var t;try{t=localStorage.getItem('ack_theme')}catch(e){}
+if(!t){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}
+document.documentElement.setAttribute('data-theme',t)})();
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+:root{
+  --font:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --brand:#7c5cff;--brand2:#22d3ee;--brand3:#ff4fd8;
+}
+[data-theme="dark"]{
+  --bg:#06070d;--bg2:#0e1020;--surface:rgba(255,255,255,.055);--surface-2:rgba(255,255,255,.09);
+  --border:rgba(255,255,255,.11);--text:#f3f4fb;--muted:#9ca3bf;--input:rgba(255,255,255,.06);
+  --shadow:0 20px 60px rgba(0,0,0,.45);--blob:.55;--accent-text:#7dd3fc;
+}
+[data-theme="light"]{
+  --bg:#f4f5fb;--bg2:#ffffff;--surface:rgba(255,255,255,.78);--surface-2:#ffffff;
+  --border:rgba(16,18,40,.1);--text:#0e1124;--muted:#5d6380;--input:#ffffff;
+  --shadow:0 18px 44px rgba(50,50,110,.12);--blob:.32;--accent-text:#5b45f0;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;min-height:100dvh;overflow-x:hidden;transition:background .4s,color .4s}
+
+/* ---------- animated background ---------- */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.blob{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(80px);opacity:var(--blob);animation:float 18s ease-in-out infinite}
+.b1{background:radial-gradient(circle,var(--brand),transparent 65%);top:-28vmax;left:-22vmax}
+.b2{background:radial-gradient(circle,var(--brand2),transparent 65%);bottom:-32vmax;right:-26vmax;animation-delay:-6s}
+.b3{background:radial-gradient(circle,var(--brand3),transparent 65%);top:35%;left:45%;width:38vmax;height:38vmax;animation-delay:-12s;opacity:calc(var(--blob)*.55)}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(6vmax,4vmax) scale(1.1)}66%{transform:translate(-4vmax,6vmax) scale(.94)}}
+.gridlines{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 25%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 0%,#000 25%,transparent 70%)}
+
+/* ---------- shell ---------- */
+.app{position:relative;z-index:1;max-width:480px;margin:0 auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding:0 16px calc(20px + env(safe-area-inset-bottom))}
+header{position:sticky;top:0;z-index:5;padding:calc(12px + env(safe-area-inset-top)) 0 10px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.bar{display:flex;align-items:center;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:18px}
+.mark{width:34px;height:34px;border-radius:10px;background:conic-gradient(from 200deg,var(--brand),var(--brand2),var(--brand3),var(--brand));display:grid;place-items:center;color:#fff;font-weight:900;font-size:17px;box-shadow:0 0 24px rgba(124,92,255,.55)}
+.logo-img{height:42px;width:auto;object-fit:contain;display:block;flex:none}
+[data-theme="dark"] .only-light,[data-theme="light"] .only-dark{display:none}
+.brandtext{display:flex;flex-direction:column;line-height:1.1}
+.brandtext small{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.tagline{background:linear-gradient(90deg,#e84a1f,#f5b014,#7cb342,#2a9fd9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo .first{background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.toggle{margin-left:auto;width:60px;height:32px;border-radius:99px;border:1px solid var(--border);background:var(--surface);position:relative;cursor:pointer;flex:none}
+.knob{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#ffd36e,#ff8a3d);transition:transform .4s cubic-bezier(.5,1.6,.4,1),background .4s;display:grid;place-items:center;font-size:13px;color:#fff}
+.knob::after{content:"☀"}
+[data-theme="dark"] .knob{transform:translateX(28px);background:linear-gradient(135deg,#a5b4fc,#6d5dfc)}
+[data-theme="dark"] .knob::after{content:"☾"}
+.progress{height:4px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin-top:12px}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2),var(--brand3));transition:width .6s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 12px var(--brand2)}
+
+/* ---------- screens ---------- */
+.screen{display:none;flex:1;flex-direction:column;padding-top:16px}
+.screen.active{display:flex;animation:in .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);padding:7px 12px;border:1px solid var(--border);border-radius:99px;background:var(--surface);width:fit-content}
+.dot{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.7)}70%{box-shadow:0 0 0 10px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+h1{font-size:clamp(36px,11vw,48px);line-height:1.03;letter-spacing:-.04em;font-weight:850;margin:18px 0 14px}
+h2{font-size:clamp(24px,7vw,28px);letter-spacing:-.03em;line-height:1.15;margin:6px 0 8px;font-weight:800}
+.grad{background:linear-gradient(90deg,var(--brand),var(--brand2),var(--brand3),var(--brand));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:300% 0}}
+.lead{color:var(--muted);font-size:16px;line-height:1.55}
+.step-label{font-size:12px;font-weight:800;color:var(--accent-text);letter-spacing:.12em;text-transform:uppercase}
+
+.marquee{margin:28px -16px 22px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+.track{display:flex;gap:10px;width:max-content;animation:scroll 24s linear infinite}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.pill{padding:10px 16px;border-radius:99px;border:1px solid var(--border);background:var(--surface);font-weight:700;font-size:14px;white-space:nowrap;display:flex;gap:8px;align-items:center}
+.pill b{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{padding:14px 8px;border-radius:16px;background:var(--surface);border:1px solid var(--border);text-align:center;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.stat strong{display:block;font-size:22px;letter-spacing:-.02em}
+.stat span{font-size:12px;color:var(--muted)}
+.spacer{flex:1;min-height:24px}
+.fine{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
+
+/* ---------- buttons ---------- */
+.btn{appearance:none;border:0;width:100%;padding:17px 22px;border-radius:16px;font:inherit;font-weight:750;font-size:17px;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--brand),#5b8cff 55%,var(--brand2));box-shadow:0 12px 30px -10px var(--brand);display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s,opacity .2s,filter .2s;position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-100%);animation:sheen 3.2s infinite}
+@keyframes sheen{55%,100%{transform:translateX(100%)}}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.38;filter:grayscale(.6);cursor:not-allowed;box-shadow:none}
+.btn:disabled::after{display:none}
+.btn.ghost{background:var(--surface);color:var(--text);border:1px solid var(--border);box-shadow:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.btn.ghost::after{display:none}
+.actions{display:flex;gap:10px;margin-top:22px;position:sticky;bottom:calc(12px + env(safe-area-inset-bottom));z-index:4}
+.actions .back{flex:0 0 58px;padding:0;font-size:20px}
+.link{background:none;border:0;color:var(--muted);font:inherit;font-size:14px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;margin:16px auto 0;padding:8px}
+
+/* ---------- challenge choices ---------- */
+.choices{display:grid;gap:10px;margin-top:18px}
+.choice{display:flex;gap:14px;align-items:center;padding:14px 16px;border-radius:18px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%;transition:border-color .2s,background .2s,box-shadow .2s,transform .15s;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.choice:active{transform:scale(.985)}
+.emo{font-size:23px;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;flex:none;background:color-mix(in srgb,var(--c) 18%,transparent)}
+.choice .txt{flex:1;font-weight:650;font-size:15px;line-height:1.35}
+.tick{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);flex:none;display:grid;place-items:center;transition:.2s;color:transparent;font-size:13px;font-weight:900}
+.choice[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 13%,var(--surface));box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 16%,transparent)}
+.choice[aria-pressed="true"] .tick{background:var(--c);border-color:var(--c);color:#fff}
+
+/* ---------- product cards ---------- */
+.rec-list{display:grid;gap:14px;margin-top:18px}
+.pcard{position:relative;border-radius:22px;padding:20px;background:var(--surface);border:1px solid var(--border);overflow:hidden;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow)}
+.pcard::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--c),transparent)}
+.pcard::after{content:"";position:absolute;width:200px;height:200px;right:-70px;top:-70px;background:radial-gradient(circle,color-mix(in srgb,var(--c) 42%,transparent),transparent 70%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--c);margin-bottom:10px}
+.pname{font-size:22px;font-weight:800;letter-spacing:-.025em;display:flex;align-items:center;gap:10px;padding-right:52px}
+.pname .emo{width:38px;height:38px;font-size:19px;border-radius:12px}
+.ptag{color:var(--muted);margin:10px 0 14px;font-size:14.5px;line-height:1.5}
+.benefits{list-style:none;display:grid;gap:9px}
+.benefits li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.4}
+.benefits li::before{content:"✓";width:19px;height:19px;flex:none;border-radius:6px;margin-top:1px;display:grid;place-items:center;font-size:11px;font-weight:900;color:#fff;background:var(--c)}
+.heart{position:absolute;top:18px;right:16px;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface-2);font-size:20px;cursor:pointer;display:grid;place-items:center;color:var(--muted);transition:background .2s,border-color .2s,color .2s}
+.heart[aria-pressed="true"]{animation:pop .4s;background:color-mix(in srgb,var(--c) 22%,var(--surface-2));border-color:var(--c);color:var(--c)}
+@keyframes pop{50%{transform:scale(1.28)}}
+.hint{display:flex;gap:8px;align-items:center;font-size:13.5px;color:var(--muted);margin-top:14px}
+.also h3{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:28px 0 10px;font-weight:800}
+.rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:4px 16px 14px;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.rail .pcard{flex:0 0 84%;scroll-snap-align:center;box-shadow:none}
+
+/* ---------- form ---------- */
+.field{display:grid;gap:7px;margin-top:14px}
+.lbl{font-size:13px;font-weight:700;color:var(--muted)}
+.lbl em{font-style:normal;color:var(--brand3)}
+input[type=text],input[type=email],input[type=tel],textarea{font:inherit;font-size:16px;padding:15px 16px;border-radius:14px;border:1.5px solid var(--border);background:var(--input);color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.7}
+input:focus,textarea:focus{border-color:var(--brand);box-shadow:0 0 0 4px color-mix(in srgb,var(--brand) 22%,transparent)}
+textarea{resize:none;min-height:84px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:10px 15px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:14px;font-weight:650;cursor:pointer;transition:.2s}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.consent{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;color:var(--muted);margin-top:18px;line-height:1.45;cursor:pointer}
+.consent input{width:20px;height:20px;flex:none;accent-color:var(--brand);margin-top:1px}
+.err{color:#f43f5e;font-size:13.5px;min-height:18px;margin-top:10px;font-weight:600}
+
+/* ---------- rating ---------- */
+.rating{display:flex;gap:8px;margin-top:12px}
+.rate{flex:1;aspect-ratio:1;border-radius:16px;border:1.5px solid var(--border);background:var(--surface);font-size:clamp(22px,7vw,30px);cursor:pointer;transition:transform .25s cubic-bezier(.5,1.6,.4,1),border-color .2s,box-shadow .2s;display:grid;place-items:center;filter:grayscale(.5)}
+.rate[aria-pressed="true"]{transform:translateY(-5px) scale(1.08);border-color:var(--brand2);box-shadow:0 12px 26px -10px var(--brand2);filter:none}
+.rate-caption{text-align:center;color:var(--muted);font-size:14px;min-height:20px;margin-top:10px;font-weight:600}
+
+/* ---------- thanks ---------- */
+.thanks{text-align:center;align-items:center}
+.ring{width:100px;height:100px;border-radius:50%;padding:4px;background:conic-gradient(var(--brand),var(--brand2),var(--brand3),var(--brand));margin:18px auto 6px;box-shadow:0 0 50px rgba(124,92,255,.5);animation:spin 6s linear infinite}
+.ring div{width:100%;height:100%;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:44px;animation:spin 6s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.code{margin:22px 0 10px;padding:20px;border-radius:22px;border:1.5px dashed var(--brand2);background:var(--surface);width:100%;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.code small{color:var(--muted);text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:800}
+.code strong{display:block;font-size:clamp(34px,11vw,44px);letter-spacing:.06em;font-weight:900;margin:6px 0 4px;font-variant-numeric:tabular-nums}
+.code p{font-size:13.5px;color:var(--muted)}
+.mini{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px}
+.stack{display:grid;gap:10px;width:100%;margin-top:18px}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.confetti i{position:absolute;top:-12px;width:8px;height:14px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+
+/* ---------- admin ---------- */
+.admin{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:70;max-width:448px;margin:0 auto;padding:18px;border-radius:20px;background:var(--bg2);border:1px solid var(--border);box-shadow:var(--shadow);display:none}
+.admin.show{display:block}
+.admin h4{font-size:15px;margin-bottom:4px}
+.admin p{font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.45}
+.admin .row{display:flex;gap:8px}
+.admin .btn{font-size:15px;padding:13px}
+
+@media (min-width:768px){.app{padding-top:20px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><div class="gridlines"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+
+<div class="app">
+  <header>
+    <div class="bar">
+      <div class="logo">
+                <img class="logo-img only-dark" src="assets/logo.png" alt="Acknowledger First logo">
+        <img class="logo-img only-light" src="assets/logo-light.png" alt="Acknowledger First logo">
+        <span class="brandtext"><span>Acknowledger <span class="first">First</span></span><small class="tagline">Ambitions Realised</small></span>
+      </div>
+      <button class="toggle" id="themeToggle" aria-label="Switch light or dark mode"><span class="knob"></span></button>
+    </div>
+    <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+  </header>
+
+  <!-- 0 · Welcome -->
+  <section class="screen active" id="s0">
+    <span class="eyebrow"><span class="dot"></span><span id="eventName">Live at the booth</span></span>
+    <h1>Find your <span class="grad">perfect fit</span> in 60 seconds.</h1>
+    <p class="lead">Tell us what slows your team down. We'll show you exactly which Acknowledger First product fixes it — and you walk away with a reward.</p>
+    <div class="marquee" aria-hidden="true"><div class="track" id="marquee"></div></div>
+    <div class="stats">
+      <div class="stat"><strong>5</strong><span>products</span></div>
+      <div class="stat"><strong>60s</strong><span>to your match</span></div>
+      <div class="stat"><strong>🎁</strong><span>booth reward</span></div>
+    </div>
+    <div class="spacer"></div>
+    <div class="actions"><button class="btn" data-go="1">Let's go <span aria-hidden="true">→</span></button></div>
+    <p class="fine"><b class="tagline">Ambitions Realised.</b> No app, no login. Your details are used only to follow up with you.</p>
+  </section>
+
+  <!-- 1 · Challenges -->
+  <section class="screen" id="s1">
+    <span class="step-label">Step 1 of 4</span>
+    <h2>What's your biggest challenge right now?</h2>
+    <p class="lead">Pick everything that sounds familiar.</p>
+    <div class="choices" id="choices"></div>
+    <div class="spacer"></div>
+    <div class="actions">
+      <button class="btn ghost back" data-go="0" aria-label="Back">←</button>
+      <button class="btn" id="toMatches" disabled>Show my matches <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <!-- 2 · Matches -->
+  <section class="screen" id="s2">
+    <span class="step-label">Step 2 of 4</span>
+    <h2>Here's what fits <span class="grad">your team</span></h2>
+    <p class="hint"><span aria-hidden="true">♥</span> Tap the heart on anything you'd like to hear more about.</p>
+    <div class="rec-list" id="recList"></div>
+    <div class="also" id="alsoWrap"><h3>Also explore</h3><div class="rail" id="rail"></div></div>
+    <div class="spacer"></div>
+    <div class="actions">
+      <button class="btn ghost back" data-go="1" aria-label="Back">←</button>
+      <button class="btn" data-go="3">Get my personalised brief <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <!-- 3 · Details -->
+  <section class="screen" id="s3">
+    <span class="step-label">Step 3 of 4</span>
+    <h2>Where should we send your brief?</h2>
+    <p class="lead">A short summary of your matched products, straight to you.</p>
+    <form id="detailsForm" novalidate>
+      <div class="field"><label class="lbl" for="fName">Full name <em>*</em></label><input type="text" id="fName" autocomplete="name" placeholder="Your name"></div>
+      <div class="field"><label class="lbl" for="fEmail">Work email</label><input type="email" id="fEmail" autocomplete="email" inputmode="email" placeholder="you@company.com"></div>
+      <div class="field"><label class="lbl" for="fPhone">Phone / WhatsApp</label><input type="tel" id="fPhone" autocomplete="tel" inputmode="tel" placeholder="+91 98765 43210"></div>
+      <div class="field"><label class="lbl" for="fCompany">Company</label><input type="text" id="fCompany" autocomplete="organization" placeholder="Company name"></div>
+      <div class="field"><span class="lbl">Your role</span><div class="chips" id="roleChips"></div></div>
+      <div class="field"><span class="lbl">Team size</span><div class="chips" id="teamChips"></div></div>
+      <label class="consent"><input type="checkbox" id="fConsent"><span>I'm happy for Acknowledger First to contact me about these products.</span></label>
+      <div class="err" id="detailsErr" role="alert"></div>
+    </form>
+    <div class="spacer"></div>
+    <div class="actions">
+      <button class="btn ghost back" data-go="2" aria-label="Back">←</button>
+      <button class="btn" id="toFeedback">Continue <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <!-- 4 · Feedback -->
+  <section class="screen" id="s4">
+    <span class="step-label">Step 4 of 4</span>
+    <h2>Last one — how did we do?</h2>
+    <div class="field"><span class="lbl">How relevant were these products to you?</span>
+      <div class="rating" id="rating"></div>
+      <div class="rate-caption" id="rateCaption"></div>
+    </div>
+    <div class="field"><span class="lbl">What would you like next?</span><div class="chips" id="nextChips"></div></div>
+    <div class="field"><label class="lbl" for="fComment">Anything else? (optional)</label><textarea id="fComment" placeholder="A feature you need, a question, a thought…"></textarea></div>
+    <div class="spacer"></div>
+    <div class="actions">
+      <button class="btn ghost back" data-go="3" aria-label="Back">←</button>
+      <button class="btn" id="submitBtn" disabled>Submit &amp; get my reward <span aria-hidden="true">🎁</span></button>
+    </div>
+  </section>
+
+  <!-- 5 · Thank you -->
+  <section class="screen thanks" id="s5">
+    <div class="ring"><div>🎉</div></div>
+    <h2 id="thanksTitle">Thank you!</h2>
+    <p class="lead" id="thanksSub">Your personalised brief is on its way.</p>
+    <div class="mini" id="thanksProducts"></div>
+    <div class="code">
+      <small>Your booth reward code</small>
+      <strong class="grad" id="rewardCode">ACK-0000</strong>
+      <p>Show this screen at the Acknowledger First booth to claim your gift.</p>
+    </div>
+    <div class="stack">
+      <button class="btn" id="saveContact">Save our contact <span aria-hidden="true">📇</span></button>
+    </div>
+    <p class="fine">Acknowledger First · <span class="tagline">Ambitions Realised</span></p>
+    <button class="link" id="restart">Next visitor? Start over</button>
+  </section>
+</div>
+
+<!-- Hidden admin panel: open the page with ?admin=1 -->
+<div class="admin" id="admin" role="dialog" aria-label="Admin">
+  <h4>Booth admin</h4>
+  <p id="adminInfo"></p>
+  <div class="row">
+    <button class="btn" id="dlAll">Dashboard</button>
+    <button class="btn ghost" id="dlCsv">This device</button>
+    <button class="btn ghost" id="clearData">Clear</button>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+/* =========================================================
+   1) EDIT THESE BEFORE THE EVENT
+   ========================================================= */
+var CONFIG = {
+  // Set the Google Apps Script URL in config.js (shared with the /data dashboard)
+  SHEET_URL: (window.ACK_CONFIG && window.ACK_CONFIG.SHEET_URL) || "",
+  EVENT_NAME: "Live at the booth",
+  CONTACT: {
+    org: "Acknowledger First",
+    phone: "+91-00000-00000",
+    email: "hello@yourdomain.com",
+    url: "https://yourdomain.com"
+  }
+};
+
+var PRODUCTS = [
+  { id:"code2hire", name:"Code2Hire", color:"#7c5cff", emoji:"🎯",
+    pain:"Hiring strong tech talent takes too long",
+    tag:"Skill-first technical hiring — assess, shortlist and hire developers on proof of ability.",
+    benefits:["Role-based coding assessments","Auto-scored, ranked shortlists","Fewer interviews wasted on poor fits"] },
+  { id:"mate", name:"AcknowledgerMate", color:"#ff7a45", emoji:"🚀",
+    pain:"We hire in bulk and drown in candidates",
+    tag:"Your mass recruitment companion — run high-volume hiring drives without the chaos.",
+    benefits:["Thousands of applicants in one flow","Bulk screening, scheduling & updates","Live pipeline view for every drive"] },
+  { id:"hrms", name:"HRMS", color:"#14b8a6", emoji:"🗂️",
+    pain:"HR ops, attendance & payroll are scattered",
+    tag:"One home for core HR — from onboarding to payroll.",
+    benefits:["Attendance, leave & payroll together","Employee self-service portal","Clean, audit-ready HR records"] },
+  { id:"a360", name:"Acknowledger360", color:"#ec4899", emoji:"🌟",
+    pain:"Engagement & recognition feel weak",
+    tag:"A 360° view of your people — feedback, recognition and growth.",
+    benefits:["360° feedback cycles","Peer recognition & rewards","Pulse checks on team morale"] },
+  { id:"ack", name:"Acknowledger", color:"#3b82f6", emoji:"📊",
+    pain:"I can't see how productive my teams really are",
+    tag:"Workforce productivity analytics — see how work actually gets done.",
+    benefits:["Real-time activity & utilisation insights","Team and process-level dashboards","Spot bottlenecks before they cost you"] }
+];
+
+var ROLES = ["HR / TA","Founder / CXO","Tech lead","Operations","Other"];
+var TEAMS = ["1–50","51–200","201–1000","1000+"];
+var NEXTS = ["Live demo","Pricing","Free trial","Just exploring"];
+var RATES = [["😐","Not really relevant"],["🙂","Somewhat relevant"],["😊","Relevant"],["😍","Very relevant"],["🤩","Exactly what we need!"]];
+var COLUMNS = ["timestamp","reward_code","source","name","email","phone","company","role","team_size","challenges","matched","interested","rating","next_step","comment","hot_lead"];
+
+/* =========================================================
+   2) APP
+   ========================================================= */
+var $ = function(id){ return document.getElementById(id); };
+var params = new URLSearchParams(location.search);
+var state;
+function freshState(){
+  return { challenges:new Set(), hearts:new Set(), role:"", team:"", rating:0, next:"", src:params.get("src") || "direct" };
+}
+state = freshState();
+
+function lsGet(k,d){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+function byId(id){ for(var i=0;i<PRODUCTS.length;i++) if(PRODUCTS[i].id===id) return PRODUCTS[i]; }
+
+/* theme */
+function setTheme(t){
+  document.documentElement.setAttribute("data-theme",t);
+  lsSetRaw("ack_theme",t);
+  document.querySelector('meta[name="theme-color"]').setAttribute("content", t==="dark" ? "#06070d" : "#f4f5fb");
+}
+function lsSetRaw(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+$("themeToggle").addEventListener("click",function(){
+  setTheme(document.documentElement.getAttribute("data-theme")==="dark" ? "light" : "dark");
+});
+setTheme(document.documentElement.getAttribute("data-theme"));
+
+/* navigation */
+var PROGRESS = [4,25,50,75,92,100];
+function go(n){
+  if(n===2) renderMatches();
+  document.querySelectorAll(".screen").forEach(function(s){ s.classList.remove("active"); });
+  $("s"+n).classList.add("active");
+  $("prog").style.width = PROGRESS[n]+"%";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.addEventListener("click",function(e){
+  var g = e.target.closest("[data-go]");
+  if(g) go(+g.getAttribute("data-go"));
+});
+
+/* welcome */
+$("eventName").textContent = CONFIG.EVENT_NAME;
+(function(){
+  var html = PRODUCTS.map(function(p){ return '<span class="pill" style="--c:'+p.color+'"><b></b>'+p.name+'</span>'; }).join("");
+  $("marquee").innerHTML = html + html;
+})();
+
+/* step 1: challenges */
+$("choices").innerHTML = PRODUCTS.map(function(p){
+  return '<button type="button" class="choice" aria-pressed="false" data-ch="'+p.id+'" style="--c:'+p.color+'">'+
+    '<span class="emo">'+p.emoji+'</span><span class="txt">'+p.pain+'</span><span class="tick">✓</span></button>';
+}).join("");
+$("choices").addEventListener("click",function(e){
+  var b = e.target.closest("[data-ch]"); if(!b) return;
+  var id = b.getAttribute("data-ch");
+  if(state.challenges.has(id)) state.challenges.delete(id); else state.challenges.add(id);
+  b.setAttribute("aria-pressed", state.challenges.has(id));
+  $("toMatches").disabled = state.challenges.size===0;
+  if(navigator.vibrate) try{ navigator.vibrate(8); }catch(err){}
+});
+$("toMatches").addEventListener("click",function(){ go(2); });
+
+/* step 2: matches */
+function card(p, rec){
+  var on = state.hearts.has(p.id);
+  return '<article class="pcard" style="--c:'+p.color+'">'+
+    (rec ? '<div class="badge">✦ Recommended for you</div>' : '')+
+    '<button type="button" class="heart" data-heart="'+p.id+'" aria-pressed="'+on+'" aria-label="Interested in '+p.name+'">'+(on?'♥':'♡')+'</button>'+
+    '<div class="pname"><span class="emo">'+p.emoji+'</span>'+p.name+'</div>'+
+    '<p class="ptag">'+p.tag+'</p>'+
+    '<ul class="benefits">'+p.benefits.map(function(b){ return '<li>'+b+'</li>'; }).join("")+'</ul></article>';
+}
+function renderMatches(){
+  var rec = PRODUCTS.filter(function(p){ return state.challenges.has(p.id); });
+  var rest = PRODUCTS.filter(function(p){ return !state.challenges.has(p.id); });
+  $("recList").innerHTML = rec.map(function(p){ return card(p,true); }).join("");
+  $("rail").innerHTML = rest.map(function(p){ return card(p,false); }).join("");
+  $("alsoWrap").style.display = rest.length ? "" : "none";
+}
+document.addEventListener("click",function(e){
+  var h = e.target.closest("[data-heart]"); if(!h) return;
+  var id = h.getAttribute("data-heart");
+  if(state.hearts.has(id)) state.hearts.delete(id); else state.hearts.add(id);
+  var on = state.hearts.has(id);
+  h.setAttribute("aria-pressed", on); h.textContent = on ? "♥" : "♡";
+  if(navigator.vibrate) try{ navigator.vibrate(on?[10,30,10]:8); }catch(err){}
+});
+
+/* chip groups */
+function chipGroup(el, items, key, onChange){
+  el.innerHTML = items.map(function(t){ return '<button type="button" class="chip" aria-pressed="false" data-v="'+t+'">'+t+'</button>'; }).join("");
+  el.addEventListener("click",function(e){
+    var c = e.target.closest(".chip"); if(!c) return;
+    var v = c.getAttribute("data-v");
+    state[key] = state[key]===v ? "" : v;
+    el.querySelectorAll(".chip").forEach(function(x){ x.setAttribute("aria-pressed", x.getAttribute("data-v")===state[key]); });
+    if(onChange) onChange();
+  });
+}
+chipGroup($("roleChips"), ROLES, "role");
+chipGroup($("teamChips"), TEAMS, "team");
+chipGroup($("nextChips"), NEXTS, "next");
+
+/* step 3: details */
+$("toFeedback").addEventListener("click",function(){
+  var name = $("fName").value.trim(), email = $("fEmail").value.trim(), phone = $("fPhone").value.replace(/[^\d+]/g,"");
+  var err = "";
+  var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email), phoneOk = phone.replace(/\D/g,"").length >= 10;
+  if(!name) err = "Please add your name.";
+  else if(!emailOk && !phoneOk) err = "Add a valid email or phone number so we can reach you.";
+  else if(email && !emailOk) err = "That email doesn't look right.";
+  else if(!$("fConsent").checked) err = "Please tick the consent box to continue.";
+  $("detailsErr").textContent = err;
+  if(!err) go(4);
+});
+
+/* step 4: feedback */
+$("rating").innerHTML = RATES.map(function(r,i){
+  return '<button type="button" class="rate" aria-pressed="false" data-r="'+(i+1)+'" aria-label="'+r[1]+'">'+r[0]+'</button>';
+}).join("");
+$("rating").addEventListener("click",function(e){
+  var b = e.target.closest(".rate"); if(!b) return;
+  state.rating = +b.getAttribute("data-r");
+  $("rating").querySelectorAll(".rate").forEach(function(x){ x.setAttribute("aria-pressed", +x.getAttribute("data-r")===state.rating); });
+  $("rateCaption").textContent = RATES[state.rating-1][1];
+  $("submitBtn").disabled = false;
+});
+
+function names(set){ return PRODUCTS.filter(function(p){ return set.has(p.id); }).map(function(p){ return p.name; }).join(" | "); }
+function isHot(){
+  var bigTeam = state.team==="201–1000" || state.team==="1000+";
+  var decider = state.role==="HR / TA" || state.role==="Founder / CXO";
+  return state.next==="Live demo" && (bigTeam || decider) && state.rating>=3;
+}
+
+$("submitBtn").addEventListener("click",function(){
+  var code = "ACK-" + String(Math.floor(1000 + Math.random()*9000));
+  var row = {
+    timestamp: new Date().toISOString(),
+    reward_code: code,
+    source: state.src,
+    name: $("fName").value.trim(),
+    email: $("fEmail").value.trim(),
+    phone: $("fPhone").value.trim(),
+    company: $("fCompany").value.trim(),
+    role: state.role,
+    team_size: state.team,
+    challenges: names(state.challenges),
+    matched: names(state.challenges),
+    interested: names(state.hearts),
+    rating: String(state.rating),
+    next_step: state.next,
+    comment: $("fComment").value.trim(),
+    hot_lead: isHot() ? "YES" : ""
+  };
+  var all = lsGet("ack_entries",[]); all.push(row); lsSet("ack_entries",all);
+  var q = lsGet("ack_queue",[]); q.push(row); lsSet("ack_queue",q);
+  flushQueue();
+  showThanks(row);
+});
+
+/* sending to Google Sheet (with offline retry) */
+var flushing = false;
+function sendRow(row){
+  var jobs = [];
+  if(CONFIG.SHEET_URL){
+    jobs.push(fetch(CONFIG.SHEET_URL,{ method:"POST", mode:"no-cors", body:new URLSearchParams(row) }));
+  }
+  return jobs.length ? Promise.all(jobs) : Promise.reject(new Error("no target"));
+}
+function flushQueue(){
+  if(flushing) return;
+  var q = lsGet("ack_queue",[]); if(!q.length) return;
+  flushing = true;
+  sendRow(q[0])
+    .then(function(){
+      var cur = lsGet("ack_queue",[]); cur.shift(); lsSet("ack_queue",cur);
+      flushing = false; flushQueue();
+    })
+    .catch(function(){ flushing = false; });
+}
+window.addEventListener("online", flushQueue);
+flushQueue();
+
+/* thank you */
+function showThanks(row){
+  var first = row.name.split(" ")[0] || "there";
+  $("thanksTitle").textContent = "Thanks, " + first + "!";
+  $("rewardCode").textContent = row.reward_code;
+  var list = state.hearts.size ? state.hearts : state.challenges;
+  $("thanksSub").textContent = "Your personalised brief for these is on its way:";
+  $("thanksProducts").innerHTML = PRODUCTS.filter(function(p){ return list.has(p.id); })
+    .map(function(p){ return '<span class="pill" style="--c:'+p.color+'"><b></b>'+p.name+'</span>'; }).join("");
+  go(5);
+  confetti();
+}
+function confetti(){
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var wrap = document.createElement("div"); wrap.className = "confetti";
+  var colors = PRODUCTS.map(function(p){ return p.color; }).concat(["#22d3ee","#ffd36e"]);
+  for(var i=0;i<70;i++){
+    var c = document.createElement("i");
+    c.style.left = Math.random()*100 + "vw";
+    c.style.background = colors[i % colors.length];
+    c.style.animationDuration = (2.2 + Math.random()*2) + "s";
+    c.style.animationDelay = (Math.random()*0.6) + "s";
+    c.style.transform = "rotate(" + Math.random()*360 + "deg)";
+    wrap.appendChild(c);
+  }
+  document.body.appendChild(wrap);
+  setTimeout(function(){ wrap.remove(); }, 5000);
+}
+
+/* save contact (vCard) */
+$("saveContact").addEventListener("click",function(){
+  var c = CONFIG.CONTACT;
+  var v = ["BEGIN:VCARD","VERSION:3.0","FN:"+c.org,"ORG:"+c.org,"TEL;TYPE=WORK:"+c.phone,"EMAIL;TYPE=WORK:"+c.email,"URL:"+c.url,"END:VCARD"].join("\r\n");
+  download(new Blob([v],{type:"text/vcard"}), c.org.replace(/\s+/g,"_")+".vcf");
+});
+function download(blob, filename){
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+/* restart for next visitor (kiosk / shared tablet) */
+$("restart").addEventListener("click",function(){
+  state = freshState();
+  $("detailsForm").reset(); $("fComment").value = ""; $("detailsErr").textContent = ""; $("rateCaption").textContent = "";
+  document.querySelectorAll('[aria-pressed="true"]').forEach(function(x){ if(x.id!=="themeToggle") x.setAttribute("aria-pressed","false"); });
+  $("toMatches").disabled = true; $("submitBtn").disabled = true;
+  go(0);
+});
+
+/* =========================================================
+   3) ADMIN (open page with ?admin=1) — CSV export of entries saved on THIS device
+   ========================================================= */
+function toCSV(rows){
+  var esc = function(v){ v = v==null ? "" : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v; };
+  return [COLUMNS.join(",")].concat(rows.map(function(r){ return COLUMNS.map(function(k){ return esc(r[k]); }).join(","); })).join("\r\n");
+}
+function refreshAdmin(){
+  var n = lsGet("ack_entries",[]).length, pending = lsGet("ack_queue",[]).length;
+  $("adminInfo").textContent = n + " entries made on this device · " + pending + " waiting to sync to Google Sheet.";
+}
+if(params.has("admin")){
+  $("admin").classList.add("show"); refreshAdmin();
+  $("dlCsv").addEventListener("click",function(){
+    var stamp = new Date().toISOString().slice(0,10);
+    download(new Blob(["\ufeff" + toCSV(lsGet("ack_entries",[]))],{type:"text/csv;charset=utf-8"}), "acknowledger-leads-"+stamp+".csv");
+  });
+  $("dlAll").addEventListener("click",function(){
+    location.href = "data/";
+  });
+  $("clearData").addEventListener("click",function(){
+    if(confirm("Delete all entries saved on this device? Download the CSV first.")){
+      lsSet("ack_entries",[]); refreshAdmin();
+    }
+  });
+}
+</script>
+</body>
+</html>

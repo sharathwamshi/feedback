@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Acknowledger First · Registrations</title>
+<link rel="icon" href="/assets/logo.png">
+<script>
+(function(){var t;try{t=localStorage.getItem('ack_theme')}catch(e){}
+if(!t){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}
+document.documentElement.setAttribute('data-theme',t)})();
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+:root{--font:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--brand:#7c5cff;--brand2:#22d3ee;--brand3:#ff4fd8}
+[data-theme="dark"]{--bg:#06070d;--bg2:#0e1020;--surface:rgba(255,255,255,.045);--surface-2:rgba(255,255,255,.08);--border:rgba(255,255,255,.1);--text:#f3f4fb;--muted:#9ca3bf;--input:rgba(255,255,255,.06);--shadow:0 20px 60px rgba(0,0,0,.4);--blob:.4}
+[data-theme="light"]{--bg:#f4f5fb;--bg2:#ffffff;--surface:rgba(255,255,255,.85);--surface-2:#eef0f8;--border:rgba(16,18,40,.1);--text:#0e1124;--muted:#5d6380;--input:#fff;--shadow:0 14px 36px rgba(50,50,110,.1);--blob:.22}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.blob{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(90px);opacity:var(--blob)}
+.b1{background:radial-gradient(circle,var(--brand),transparent 65%);top:-30vmax;left:-20vmax}
+.b2{background:radial-gradient(circle,var(--brand2),transparent 65%);top:-25vmax;right:-25vmax}
+.wrap{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:16px 16px 40px}
+
+header{display:flex;align-items:center;gap:12px;padding:6px 0 18px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-.02em}
+.logo-img{height:42px;width:auto;object-fit:contain;display:block;flex:none}
+[data-theme="dark"] .only-light,[data-theme="light"] .only-dark{display:none}
+.brandtext{display:flex;flex-direction:column;line-height:1.1}
+.brandtext small{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.tagline{background:linear-gradient(90deg,#e84a1f,#f5b014,#7cb342,#2a9fd9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mark{width:34px;height:34px;border-radius:10px;background:conic-gradient(from 200deg,var(--brand),var(--brand2),var(--brand3),var(--brand));display:grid;place-items:center;color:#fff;font-weight:900}
+.first{background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sep{color:var(--muted);font-weight:500}
+.right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.toggle{width:60px;height:32px;border-radius:99px;border:1px solid var(--border);background:var(--surface);position:relative;cursor:pointer;flex:none}
+.knob{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#ffd36e,#ff8a3d);transition:transform .35s;display:grid;place-items:center;font-size:13px;color:#fff}
+.knob::after{content:"☀"}
+[data-theme="dark"] .knob{transform:translateX(28px);background:linear-gradient(135deg,#a5b4fc,#6d5dfc)}
+[data-theme="dark"] .knob::after{content:"☾"}
+
+.btn{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:650;font-size:14px;padding:10px 14px;border-radius:12px;cursor:pointer;white-space:nowrap}
+.btn.primary{border:0;color:#fff;background:linear-gradient(135deg,var(--brand),#5b8cff 55%,var(--brand2))}
+.btn[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+
+/* login */
+.login{max-width:400px;margin:12vh auto 0;padding:28px;border-radius:22px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.login h1{font-size:24px;letter-spacing:-.02em;margin-bottom:6px}
+.login p{color:var(--muted);font-size:14.5px;line-height:1.5;margin-bottom:18px}
+.login input{width:100%;font:inherit;font-size:16px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--border);background:var(--input);color:var(--text);outline:none;margin-bottom:12px}
+.login input:focus{border-color:var(--brand)}
+.login .btn{width:100%;padding:14px;font-size:16px}
+.err{color:#f43f5e;font-size:13.5px;font-weight:600;min-height:18px;margin-top:10px}
+
+/* stats */
+.title-row{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.title-row h1{font-size:clamp(24px,4vw,32px);letter-spacing:-.03em}
+.status{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.2)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:12px}
+.card{padding:18px;border-radius:18px;background:var(--surface);border:1px solid var(--border);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.stat span{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.stat strong{display:block;font-size:32px;letter-spacing:-.03em;margin-top:6px}
+.stat small{color:var(--muted);font-size:13px}
+.bars{display:grid;gap:10px;margin-top:12px}
+.bar{display:grid;grid-template-columns:150px 1fr 36px;gap:10px;align-items:center;font-size:14px}
+.bar .track{height:10px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.bar b{text-align:right;font-variant-numeric:tabular-nums}
+.card h3{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+
+/* toolbar + table */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:20px 0 12px}
+.search{flex:1 1 240px;font:inherit;font-size:15px;padding:11px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--input);color:var(--text);outline:none}
+.search:focus{border-color:var(--brand)}
+.table-wrap{overflow:auto;max-height:70vh;border:1px solid var(--border);border-radius:18px;background:var(--surface);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:1100px}
+th{position:sticky;top:0;z-index:1;text-align:left;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:12px 14px;background:var(--bg2);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
+th.sorted{color:var(--text)}
+td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.4}
+tbody tr:hover td{background:var(--surface-2)}
+td.nowrap{white-space:nowrap}
+.sub{display:block;color:var(--muted);font-size:12.5px}
+.muted{color:var(--muted);font-size:12.5px}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;border:1px solid var(--border);font-size:12px;margin:2px 4px 2px 0;white-space:nowrap}
+.hot{display:inline-block;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:800;color:#fff;background:linear-gradient(135deg,#ff4f6d,#ff8a3d)}
+.rate{font-size:18px;white-space:nowrap}
+.rate small{font-size:12px;color:var(--muted);margin-left:4px}
+.comment{max-width:260px;color:var(--muted)}
+.empty{padding:48px 16px;text-align:center;color:var(--muted)}
+a{color:inherit}
+@media (max-width:600px){.bar{grid-template-columns:110px 1fr 30px}.hide-sm{display:none}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div></div>
+<div class="wrap">
+  <header>
+    <div class="logo">
+            <img class="logo-img only-dark" src="/assets/logo.png" alt="Acknowledger First logo">
+        <img class="logo-img only-light" src="/assets/logo-light.png" alt="Acknowledger First logo">
+        <span class="brandtext"><span>Acknowledger <span class="first">First</span></span><small class="tagline">Ambitions Realised</small></span>
+      <span class="sep hide-sm">/ data</span>
+    </div>
+    <div class="right">
+      <button class="btn" id="logout" hidden>Lock</button>
+      <button class="toggle" id="themeToggle" aria-label="Switch light or dark mode"><span class="knob"></span></button>
+    </div>
+  </header>
+
+  <!-- Login -->
+  <section class="login" id="loginView" hidden>
+    <h1>Registrations</h1>
+    <p>Enter the admin key you set in the Google Apps Script to view all booth registrations.</p>
+    <form id="loginForm">
+      <input type="password" id="keyInput" placeholder="Admin key" autocomplete="current-password">
+      <button class="btn primary" type="submit">View registrations</button>
+    </form>
+    <div class="err" id="loginErr" role="alert"></div>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="dashView" hidden>
+    <div class="title-row">
+      <h1>Registrations</h1>
+      <span class="status"><span class="dot"></span><span id="status">Loading…</span></span>
+    </div>
+    <div class="stats">
+      <div class="card stat"><span>Registrations</span><strong id="sTotal">0</strong><small id="sToday"></small></div>
+      <div class="card stat"><span>Avg rating</span><strong id="sAvg">–</strong><small id="sAvgEmo"></small></div>
+      <div class="card stat"><span>Hot leads</span><strong id="sHot">0</strong><small>demo + decision-maker</small></div>
+      <div class="card stat"><span>Demo requests</span><strong id="sDemo">0</strong><small id="sTrial"></small></div>
+    </div>
+    <div class="card"><h3>Product interest</h3><div class="bars" id="bars"></div></div>
+
+    <div class="toolbar">
+      <input class="search" id="search" type="search" placeholder="Search name, company, email, product…">
+      <button class="btn" id="hotBtn" aria-pressed="false">🔥 Hot only</button>
+      <button class="btn" id="refresh">↻ Refresh</button>
+      <button class="btn primary" id="csv">Download CSV</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr id="thead"></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty" id="empty" hidden>No registrations yet.</div>
+    </div>
+  </section>
+</div>
+
+<script src="/config.js"></script>
+<script>
+var CFG = window.ACK_CONFIG || {};
+var EMO = {"1":"😐","2":"🙂","3":"😊","4":"😍","5":"🤩"};
+var COLS = [
+  {k:"timestamp", l:"Time"}, {k:"name", l:"Name"}, {k:"company", l:"Company"}, {k:"role", l:"Role"},
+  {k:"team_size", l:"Team"}, {k:"email", l:"Contact"}, {k:"interested", l:"Interested in"},
+  {k:"rating", l:"Rating"}, {k:"next_step", l:"Wants"}, {k:"hot_lead", l:"Hot"},
+  {k:"reward_code", l:"Code"}, {k:"source", l:"Source"}, {k:"comment", l:"Comment"}
+];
+var ALL = ["timestamp","reward_code","source","name","email","phone","company","role","team_size","challenges","matched","interested","rating","next_step","comment","hot_lead"];
+var $ = function(id){ return document.getElementById(id); };
+var rows = [], key = "", sortKey = "timestamp", sortDir = -1, hotOnly = false, query = "", timer = null;
+
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function ssGet(){ try{ return sessionStorage.getItem("ack_key") || ""; }catch(e){ return ""; } }
+function ssSet(v){ try{ v ? sessionStorage.setItem("ack_key", v) : sessionStorage.removeItem("ack_key"); }catch(e){} }
+function time(v){ var d = new Date(v); return isNaN(d) ? { t: v || "", n: 0 } : { t: d.toLocaleString([], {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"}), n: d.getTime() }; }
+function prods(r){ return String(r.interested || r.matched || "").split("|").map(function(s){ return s.trim(); }).filter(Boolean); }
+
+/* theme */
+$("themeToggle").addEventListener("click", function(){
+  var t = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", t);
+  try{ localStorage.setItem("ack_theme", t); }catch(e){}
+});
+
+/* views */
+function showLogin(msg){
+  stopTimer();
+  $("dashView").hidden = true; $("logout").hidden = true; $("loginView").hidden = false;
+  $("loginErr").textContent = msg || "";
+  setTimeout(function(){ $("keyInput").focus(); }, 50);
+}
+function showDash(){ $("loginView").hidden = true; $("dashView").hidden = false; $("logout").hidden = false; }
+function setStatus(t){ $("status").textContent = t; }
+function stopTimer(){ if(timer){ clearInterval(timer); timer = null; } }
+
+$("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  key = $("keyInput").value.trim();
+  if(!key) return;
+  load(true);
+});
+$("logout").addEventListener("click", function(){ key = ""; ssSet(""); rows = []; $("keyInput").value = ""; showLogin(); });
+
+/* data */
+function load(fromLogin){
+  if(!CFG.SHEET_URL){ showLogin("SHEET_URL isn't set in config.js yet."); return; }
+  if(!fromLogin) setStatus("Refreshing…");
+  fetch(CFG.SHEET_URL + "?key=" + encodeURIComponent(key) + "&t=" + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(!d.ok){ key = ""; ssSet(""); showLogin(d.error === "unauthorized" ? "That key didn't work. Try again." : "Couldn't load data."); return; }
+      ssSet(key);
+      rows = (d.rows || []).filter(function(r){ return r.name; });
+      showDash(); render();
+      setStatus("Live · updated " + new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit", second:"2-digit"}));
+      if(!timer) timer = setInterval(function(){ if(!document.hidden) load(); }, 30000);
+    })
+    .catch(function(){
+      if(fromLogin) showLogin("Couldn't reach the Google Sheet. Check SHEET_URL and your connection.");
+      else setStatus("Offline · will retry");
+    });
+}
+
+/* render */
+function filtered(){
+  var q = query.toLowerCase();
+  var list = rows.filter(function(r){
+    if(hotOnly && r.hot_lead !== "YES") return false;
+    if(!q) return true;
+    return ALL.some(function(k){ return String(r[k] || "").toLowerCase().indexOf(q) > -1; });
+  });
+  list.sort(function(a, b){
+    var x, y;
+    if(sortKey === "timestamp"){ x = time(a.timestamp).n; y = time(b.timestamp).n; }
+    else if(sortKey === "rating"){ x = +a.rating || 0; y = +b.rating || 0; }
+    else { x = String(a[sortKey] || "").toLowerCase(); y = String(b[sortKey] || "").toLowerCase(); }
+    return x < y ? -sortDir : x > y ? sortDir : 0;
+  });
+  return list;
+}
+
+function render(){
+  /* stats */
+  var total = rows.length, today = new Date().toDateString();
+  var todayN = rows.filter(function(r){ return new Date(r.timestamp).toDateString() === today; }).length;
+  var rated = rows.filter(function(r){ return +r.rating; });
+  var avg = rated.length ? rated.reduce(function(s, r){ return s + (+r.rating); }, 0) / rated.length : 0;
+  $("sTotal").textContent = total;
+  $("sToday").textContent = todayN + " today";
+  $("sAvg").textContent = avg ? avg.toFixed(1) + " / 5" : "–";
+  $("sAvgEmo").textContent = avg ? EMO[String(Math.round(avg))] + " from " + rated.length + " ratings" : "";
+  $("sHot").textContent = rows.filter(function(r){ return r.hot_lead === "YES"; }).length;
+  $("sDemo").textContent = rows.filter(function(r){ return r.next_step === "Live demo"; }).length;
+  $("sTrial").textContent = rows.filter(function(r){ return r.next_step === "Free trial"; }).length + " want a free trial";
+
+  /* product interest */
+  var counts = {};
+  rows.forEach(function(r){ prods(r).forEach(function(p){ counts[p] = (counts[p] || 0) + 1; }); });
+  var entries = Object.keys(counts).map(function(k){ return [k, counts[k]]; }).sort(function(a, b){ return b[1] - a[1]; });
+  var max = entries.length ? entries[0][1] : 1;
+  $("bars").innerHTML = entries.length ? entries.map(function(e){
+    return '<div class="bar"><span>' + esc(e[0]) + '</span><div class="track"><div class="fill" style="width:' + (e[1] / max * 100) + '%"></div></div><b>' + e[1] + '</b></div>';
+  }).join("") : '<span class="sub">No data yet</span>';
+
+  /* table head */
+  $("thead").innerHTML = '<th>#</th>' + COLS.map(function(c){
+    var arrow = sortKey === c.k ? (sortDir === 1 ? " ↑" : " ↓") : "";
+    return '<th data-k="' + c.k + '" class="' + (sortKey === c.k ? "sorted" : "") + '">' + c.l + arrow + '</th>';
+  }).join("");
+
+  /* table body */
+  var list = filtered();
+  $("empty").hidden = list.length > 0;
+  $("empty").textContent = rows.length ? "No registrations match your filter." : "No registrations yet.";
+  $("tbody").innerHTML = list.map(function(r, i){
+    var tm = time(r.timestamp);
+    var contact = (r.email ? '<a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a>' : "") +
+                  (r.phone ? '<span class="sub"><a href="tel:' + esc(r.phone) + '">' + esc(r.phone) + '</a></span>' : "");
+    var tags = prods(r).map(function(p){ return '<span class="tag">' + esc(p) + '</span>'; }).join("");
+    var rating = +r.rating ? '<span class="rate">' + EMO[r.rating] + '<small>' + esc(r.rating) + '/5</small></span>' : "–";
+    return '<tr>' +
+      '<td class="nowrap muted">' + (i + 1) + '</td>' +
+      '<td class="nowrap">' + esc(tm.t) + '</td>' +
+      '<td class="nowrap"><b>' + esc(r.name) + '</b></td>' +
+      '<td>' + esc(r.company) + '</td>' +
+      '<td class="nowrap">' + esc(r.role) + '</td>' +
+      '<td class="nowrap">' + esc(r.team_size) + '</td>' +
+      '<td class="nowrap">' + contact + '</td>' +
+      '<td>' + tags + '</td>' +
+      '<td>' + rating + '</td>' +
+      '<td class="nowrap">' + esc(r.next_step) + '</td>' +
+      '<td>' + (r.hot_lead === "YES" ? '<span class="hot">HOT</span>' : "") + '</td>' +
+      '<td class="nowrap"><b>' + esc(r.reward_code) + '</b></td>' +
+      '<td class="nowrap muted">' + esc(r.source) + '</td>' +
+      '<td class="comment">' + esc(r.comment) + '</td>' +
+    '</tr>';
+  }).join("");
+}
+
+$("thead").addEventListener("click", function(e){
+  var th = e.target.closest("th[data-k]"); if(!th) return;
+  var k = th.getAttribute("data-k");
+  if(sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = (k === "timestamp" || k === "rating") ? -1 : 1; }
+  render();
+});
+$("search").addEventListener("input", function(){ query = this.value; render(); });
+$("hotBtn").addEventListener("click", function(){ hotOnly = !hotOnly; this.setAttribute("aria-pressed", hotOnly); render(); });
+$("refresh").addEventListener("click", function(){ load(); });
+
+/* CSV export of the current (filtered) view */
+$("csv").addEventListener("click", function(){
+  var cell = function(v){ v = v == null ? "" : String(v); if(/^[=@]/.test(v)) v = "'" + v; return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+  var csv = [ALL.join(",")].concat(filtered().map(function(r){ return ALL.map(function(k){ return cell(r[k]); }).join(","); })).join("\r\n");
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["﻿" + csv], {type:"text/csv;charset=utf-8"}));
+  a.download = "acknowledger-first-registrations-" + new Date().toISOString().slice(0, 10) + ".csv";
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+/* start */
+key = ssGet();
+if(key) load(true); else showLogin();
+</script>
+</body>
+</html>
